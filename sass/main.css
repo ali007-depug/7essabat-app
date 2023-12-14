@@ -1,0 +1,258 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #333;
+  color: white;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+body :is(h4, h5, h6):active {
+  animation: click 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+body header {
+  width: 90%;
+  height: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+body header .switchMode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(36%);
+  overflow: hidden;
+  order: 1;
+  text-transform: capitalize;
+}
+body header .switchMode .titleMode {
+  cursor: pointer;
+  margin: 0;
+  border: 1px solid;
+  padding: 10px;
+}
+body header .switchMode .titleMode:hover {
+  background-color: #202020;
+  color: white;
+}
+body header .switchMode .modes {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  gap: 0.5rem;
+  flex-flow: column;
+  position: relative;
+  top: -150px;
+  transition: 0.3s ease-out;
+}
+body header .switchMode .modes.show {
+  top: 0px;
+}
+body header .switchMode .modes > * {
+  padding: 5px;
+  min-width: 77px;
+  border: 1px solid;
+  border-radius: 3px;
+  transition: 0.3s;
+}
+body header .switchMode .modes > *:active {
+  animation: click 0.1s;
+}
+body header .switchMode .modes > *:hover {
+  background-color: #202020;
+  color: white;
+}
+body header .switchMode .modes > * label {
+  cursor: pointer;
+}
+body header .dateHolder span {
+  padding: 10px;
+  border-top: 2px dotted #333;
+  border-bottom: 2px dotted white;
+  font-size: clamp(11px, 2vw, 14px);
+}
+body main {
+  display: flex;
+  flex-direction: column;
+  margin-top: 70px;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  gap: 2rem;
+}
+body main .inputsHolder {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+  overflow: hidden;
+  min-height: 120px;
+}
+body main .inputsHolder > * {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 18px;
+  padding-left: 10px;
+  border-left: 1px solid;
+  transition: all 0.3s;
+  position: relative;
+}
+body main .buttons {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+  padding: 0 15px;
+  max-width: 500px;
+  text-transform: capitalize;
+  font-size: clamp(13.5px, 2vw, 16px);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+body main .buttons > * {
+  cursor: pointer;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 10px;
+  transition: 0.3s;
+  flex: 1 1 max(20%, 100px);
+  align-self: center;
+  text-align: center;
+}
+body main .buttons #addToStack,
+body main .buttons #updateStack {
+  background-color: rgb(39, 143, 146);
+}
+body main .buttons #addToStack:hover,
+body main .buttons #updateStack:hover {
+  background-color: rgb(3, 207, 214);
+}
+body main .buttons #showProfit,
+body main .buttons #calcProfit {
+  background-color: rgb(70, 157, 70);
+}
+body main .buttons #showProfit:hover,
+body main .buttons #calcProfit:hover {
+  background-color: rgb(15, 153, 15);
+}
+body main .buttons #showData,
+body main .buttons #hideData {
+  background-color: rgba(136, 74, 119, 0.486);
+}
+body main .buttons #showData:hover,
+body main .buttons #hideData:hover {
+  background-color: rgb(136, 74, 119);
+}
+body main .buttons #openSells {
+  background-color: rgba(49, 185, 30, 0.368627451);
+}
+body main .buttons #openSells:hover {
+  background-color: #31b91e;
+}
+body main .buttons #zero {
+  background-color: rgba(255, 255, 255, 0.361);
+  color: black;
+}
+body main .buttons #zero:hover {
+  background-color: rgb(255, 255, 255);
+}
+body main .buttons #closeSells,
+body main .buttons h6 {
+  background-color: rgb(72, 16, 16);
+  color: white !important;
+}
+body main .buttons #closeSells:hover,
+body main .buttons h6:hover {
+  background-color: rgb(187, 8, 8);
+}
+body .data {
+  margin: 0 10px;
+  padding: 15px;
+  font-size: clamp(15px, 4vw, 18px);
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+body .data .item {
+  border-bottom: 1px dotted;
+  margin-bottom: 5px;
+  padding: 5px 3px;
+}
+body .data.addBorder {
+  border: 2px solid;
+}
+body .overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+body .popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(262px, 73%);
+  height: 150px;
+  background-color: white;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  border-radius: 5px;
+  border: 2px solid;
+  color: black;
+  font-size: clamp(15px, 3vw, 18px);
+}
+body .popup .popupTitle {
+  margin-top: 30px;
+  font-size: clamp(17px, 3vw, 20px);
+  font-weight: bold;
+}
+body .popup .holderYandNo {
+  margin-top: 40px;
+  display: flex;
+  gap: 2rem;
+}
+body .popup .holderYandNo span {
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 3px;
+  cursor: pointer;
+}
+body .popup .holderYandNo span:hover {
+  border-color: black;
+  background-color: red;
+  color: white;
+}
+body footer {
+  display: flex;
+  position: relative;
+  bottom: -50px;
+}
+body footer .about {
+  background-color: #333;
+  border-radius: 20px;
+  padding: 0 5px;
+}
+body footer .about a i {
+  color: white;
+}
+body .hide {
+  transform: translateX(400px);
+}
+body .toUp {
+  transform: translateY(-50px);
+}
+@keyframes click {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.9);
+  }
+}/*# sourceMappingURL=main.css.map */

@@ -1,0 +1,300 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #333;
+  color: white;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  //make all buttons clickable
+  :is(h4, h5, h6):active {
+    animation: click 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  }
+  // style Header
+  header {
+    width: 90%;
+    height: 90px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    // style "switchMode" div which contain .titleMode and .mode
+    .switchMode {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform: translateY(36%);
+      overflow: hidden;
+      order: 1;
+      text-transform: capitalize;
+      //style h5 : "switch mode"
+      .titleMode {
+        cursor: pointer;
+        margin: 0;
+        border: 1px solid;
+        padding: 10px;
+        &:hover {
+          background-color: #202020;
+          color: white;
+        }
+      }
+      // style ul and its child li's
+      .modes {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        gap: 0.5rem;
+        flex-flow: column;
+        position: relative;
+        top: -150px;
+        transition: 0.3s ease-out;
+        //toggel this class by js
+        &.show {
+          top: 0px;
+        }
+        //style li inside .modes
+        > * {
+          padding: 5px;
+          min-width: 77px;
+          border: 1px solid;
+          border-radius: 3px;
+          transition: 0.3s;
+          //make it clickable via :active
+          &:active {
+            animation: click 0.1s;
+          }
+          &:hover {
+            background-color: #202020;
+            color: white;
+          }
+          //style the label inside li
+          label {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+    .dateHolder {
+      //this is span is created by js and hold [10-dec-2023]
+      span {
+        padding: 10px;
+        border-top: 2px dotted #333;
+        border-bottom: 2px dotted white;
+        font-size: clamp(11px, 2vw, 14px);
+      }
+    }
+  }
+
+
+// this main hold the inputs with their labels
+main {
+  display: flex;
+  flex-direction: column;
+  margin-top: 70px;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  gap: 2rem;
+  //div that hold div that hold inputs and their labels
+  .inputsHolder {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5rem;
+    overflow: hidden;
+    min-height: 120px;
+    //select all divs that hold inputs and their labels
+    > * {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 18px;
+      padding-left: 10px;
+      border-left: 1px solid;
+      transition: all 0.3s;
+      position: relative;
+    }
+  }
+  //style div that hold all buttons
+  .buttons {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1rem;
+    padding: 0 15px;
+    max-width: 500px;
+    text-transform: capitalize;
+    font-size: clamp(13.5px, 2vw, 16px); // for responsive
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    //select all buttons
+    > * {
+      cursor: pointer;
+      border: 1px solid;
+      border-radius: 3px;
+      padding: 10px;
+      transition: 0.3s;
+      flex: 1 1 max(20%, 100px); //for responsive
+      align-self: center;
+      text-align: center;
+    }
+    //style buttons in groubing
+    & #addToStack,
+    #updateStack {
+      background-color: rgb(39, 143, 146);
+      &:hover {
+        background-color: rgb(3, 207, 214);
+      }
+    }
+    & #showProfit,
+    #calcProfit {
+      background-color: rgb(70, 157, 70);
+      &:hover {
+        background-color: rgb(15, 153, 15);
+      }
+    }
+    & #showData,
+    #hideData {
+      background-color: rgba(136, 74, 119, 0.486);
+      &:hover {
+        background-color: rgba(136, 74, 119);
+      }
+    }
+    & #openSells {
+      background-color: #31b91e5e;
+      &:hover {
+        background-color: #31b91e;
+      }
+    }
+    & #zero {
+      background-color: rgba(255, 255, 255, 0.361);
+      color: black;
+      &:hover {
+        background-color: rgba(255, 255, 255);
+      }
+    }
+
+    & #closeSells,
+    h6 {
+      background-color: rgb(72, 16, 16);
+      color: white !important;
+      &:hover {
+        background-color: rgba(187, 8, 8);
+      }
+    }
+  }
+}
+
+// div that hold the data
+.data {
+  margin: 0 10px;
+  padding: 15px;
+  font-size: clamp(15px, 4vw, 18px);
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  // this added with js when click on show data
+  .item {
+    border-bottom: 1px dotted;
+    margin-bottom: 5px;
+    padding: 5px 3px;
+  }
+  &.addBorder {
+    border: 2px solid;
+  }
+}
+//style overlay and the popup
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+//style popup
+.popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(min(262px, 73%));
+  height: 150px;
+  background-color: white;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  border-radius: 5px;
+  border: 2px solid;
+  color: black;
+  font-size: clamp(15px, 3vw, 18px);
+  //style popUp title
+  .popupTitle {
+    margin-top: 30px;
+    font-size: clamp(17px, 3vw, 20px);
+    font-weight: bold;
+  }
+  // style div that hold Yes and No
+  .holderYandNo {
+    margin-top: 40px;
+    display: flex;
+    gap: 2rem;
+    // Yes & No
+    span {
+      border: 1px solid;
+      border-radius: 3px;
+      padding: 3px;
+      cursor: pointer;
+      &:hover {
+        border-color: black;
+        background-color: red;
+        color: white;
+      }
+    }
+  }
+}
+footer {
+  display: flex;
+  position: relative;
+  bottom: -50px;
+  // margin-top: 20px;
+  .about {
+    background-color: #333;
+    border-radius: 20px;
+    padding: 0 5px;
+    a {
+      i {
+        color: white;
+      }
+    }
+  }
+}
+
+// div add by js
+//for minpulate price wrap and sell price wrap
+.hide {
+  transform: translateX(400px);
+}
+
+//move inputs holder
+.toUp {
+  transform: translateY(-50px);
+}
+
+//animations 
+
+//animation to handel click
+@keyframes click {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.9);
+  }
+}
+// end animations 
+}
+
+
+
