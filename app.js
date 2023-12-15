@@ -159,7 +159,7 @@ addToStackButton.addEventListener("click", (e) => {
       data.style.bordercolor = "rgb(3, 207, 214)";
       data.style.background = "#333";
       data.style.color = "white";
-      data.appendChild(document.createTextNode("Added succefuly"));
+      data.appendChild(document.createTextNode("Added successfully"));
     }
     // let index = findFalse(number.value, price.value, sellPrice.value)
     else{ 
