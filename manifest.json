@@ -1,6 +1,6 @@
 {
-  "name": "Business App",
-  "short_name": "Business App",
+  "name": "7essabat App",
+  "short_name": "7essabat App",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#333",
