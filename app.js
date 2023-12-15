@@ -32,26 +32,36 @@ const light = document.querySelector(".light");
 const night = document.querySelector(".night");
 const modeList = document.querySelectorAll(".modes li");
 
+//register the service worker
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker
+      .register("./serviceWorker.js")
+      .then((res) => console.log(`service worker register`))
+      .catch((err) => {
+        console.log(`service worker is not registered:${err}`);
+      });
+  });
+}
 //store 4 inputs in array
 let inputs = [catg, number, price, sellPrice];
 //array of objects
 let arrOfObj = [];
-let oldInputs = getDataFromls("data");
 
 //show date on the page
 Datee(dateHolder);
 
-//get data from local storage
-getDataFromls("data");
-
-//get "mode" data
-getDataFromls("mode");
 
 //default styles
 calcProfitButton.style.display = "none";
 hideDataButton.style.display = "none";
 closeSellsButton.style.display = "none";
 updateStack.style.display = "none";
+
+//check if there is data on local storage,if it's exist then assingd it to arrOfobj
+if (getDataFromls("data")) {
+  arrOfObj = JSON.parse(localStorage.getItem("data"));
+}
 
 //mainpulate body background and hadel check radio
 if (getDataFromls("mode") == "light") {
@@ -63,6 +73,13 @@ if (getDataFromls("mode") == "light") {
   document.body.style.color = night.dataset.color;
   night.firstElementChild.checked = "checked";
 }
+
+//get data from local storage
+getDataFromls("data");
+
+//get "mode" data
+getDataFromls("mode");
+
 //show and hide light and night
 titleMode.onclick = function () {
   modes.classList.toggle("show");
@@ -90,13 +107,24 @@ switchMode.addEventListener("click", (e) => {
 
 //remove the data from local storage
 emptyStackButton.addEventListener("click", () => {
-  popup();
+  let oldInputs = getDataFromls("data");
+  if (oldInputs) {
+    popup();
+  }
+  else {
+          data.innerHTML = "";
+          data.style.display = "block";
+          data.classList.add("addBorder");
+          data.style.bordercolor = "rgb(3, 207, 214)";
+          data.style.background = "#333";
+          data.style.color = "white";
+          data.appendChild(document.createTextNode("Sorry you don't have items yet"));
+
+  }
+  emptyInputs(inputs);
 });
 
-//check if there is data on local storage,if it's exist then assingd it to arrOfobj
-if (oldInputs) {
-  arrOfObj = JSON.parse(localStorage.getItem("data"));
-}
+
 
 // event to handel the addToStack button which invoke handelInputs() & add Data to local storage function
 addToStackButton.addEventListener("click", (e) => {
@@ -122,10 +150,11 @@ addToStackButton.addEventListener("click", (e) => {
         hideDataButton.style.display = "none";
         showDataButton.style.display = "block";
       }
-    // if (checkIfItNum(number.value, price.value, sellPrice.value)) {
+
       handelInputs();
       emptyInputs(inputs);
       data.innerHTML = "";
+      data.style.display ="block"
       data.classList.add("addBorder");
       data.style.bordercolor = "rgb(3, 207, 214)";
       data.style.background = "#333";
@@ -148,8 +177,10 @@ addToStackButton.addEventListener("click", (e) => {
   }
 });
 
+
 // function that handel inputs
 function handelInputs() {
+  let oldInputs = getDataFromls("data");
   // case 1 : no data on ls
   if (!oldInputs) {
     const obj = {
@@ -194,7 +225,7 @@ function emptyInputs(inputs) {
 
 //add data to local storge
 function addDataTols(name, arr) {
-  window.localStorage.setItem(name, JSON.stringify(arr));
+  localStorage.setItem(name, JSON.stringify(arr));
 }
 
 //function to get data from ls
@@ -216,13 +247,14 @@ function calcProfit() {
 }
 //function to calc all profit for the data and show it with message on data's div
 function calcAllProfits(message) {
+  let oldInputs = getDataFromls("data");
   if (oldInputs) {
     let res = 0;
     for (let i = 0; i < oldInputs.length; i++) {
       res += oldInputs[i].profit;
     }
     data.innerHTML = "";
-    data.style.display ="block"
+    data.style.display = "block";
     data.classList.add("addBorder");
     let span = document.createElement("span");
     let theProfit = document.createTextNode(`${message} : ${res} SDG`);
@@ -231,11 +263,23 @@ function calcAllProfits(message) {
   } else data.innerHTML = "";
 }
 showProfitButton.onclick = function () {
+  let oldInputs = getDataFromls("data");
   if (hideDataButton.style.display === "block") {
     hideDataButton.style.display = "none";
     showDataButton.style.display = "block";
   }
-  calcAllProfits("Your Profit is  ");
+  if(oldInputs)
+    calcAllProfits("Your Profit is  ");
+  else {
+          data.innerHTML = "";
+          data.style.display = "block";
+          data.classList.add("addBorder");
+          data.style.bordercolor = "rgb(3, 207, 214)";
+          data.style.background = "#333";
+          data.style.color = "white";
+          data.appendChild(document.createTextNode("Sorry you don't have items yet"));
+
+  }
 };
 calcProfitButton.onclick = function () {
   if (hideDataButton.style.display === "block") {
@@ -247,11 +291,13 @@ calcProfitButton.onclick = function () {
 
 //event to show data
 showDataButton.onclick = function () {
+  let oldInputs = getDataFromls("data");
+
   data.innerHTML = "";
   data.style.display = "block";
   data.classList.add("addBorder");
-  if (getDataFromls("data")) {
-    Datee(data);
+  if (oldInputs) {
+    // Datee(data);
     arrOfObj.forEach((obj, i) => {
       let item = document.createElement("div");
       item.className = "item";
@@ -324,34 +370,38 @@ closeSellsButton.onclick = function () {
 //event for update stack
 updateStack.onclick = function () {
   if (catg.value != "" && number.value != "") {
+    data.style.display = "block";
     //Show and hide data's buttons
     if (hideDataButton.style.display === "block") {
       hideDataButton.style.display = "none";
       showDataButton.style.display = "block";
     }
     //if one of items == zero then don't work
-    if (zeroItem().catName != catg.value) {
-        handelProfits();
-        emptyInputs(inputs);
-        data.innerHTML = "";
-        data.style.display = "block";
-        data.style.color = "rgb(3, 207, 214)";
-        data.style.background = "#333";
-        data.classList.add("addBorder");
-        data.appendChild(document.createTextNode("Stack Updated !"));
+    if(zeroItem() == undefined){
+      handelProfits();
+      emptyInputs(inputs);
+      data.innerHTML = "";
+      data.style.display = "block";
+      data.style.color = "rgb(3, 207, 214)";
+      data.style.background = "#333";
+      data.classList.add("addBorder");
+      data.appendChild(document.createTextNode("Stack Updated !"));
       
     }
-    else {
+    else  {
       data.innerHTML = "";
               data.style.display = "block";
               data.style.color = "rgb(3, 207, 214)";
               data.style.background = "#333";
-
+      
       data.classList.add("addBorder");
-      data.appendChild(document.createTextNode("The number of items you enterd in your stack is 0"))
+      data.appendChild(document.createTextNode("Sorry: You haven't this item in your stack"))
     }
   } else {
     data.innerHTML = "";
+    data.style.display = "block";
+    data.style.color = "rgb(3, 207, 214)";
+    data.style.background = "#333";
     data.classList.add("addBorder");
     data.appendChild(document.createTextNode("Please fill all fields"));
   }
@@ -376,6 +426,8 @@ function Datee(holder) {
 
 //function to set profit to zero
 function setprofitToZero() {
+  let oldInputs = getDataFromls("data");
+
   if (oldInputs) {
     for (let i = 0; i < oldInputs.length; i++) {
       oldInputs[i].profit = 0;
@@ -415,8 +467,8 @@ function popup() {
   document.body.appendChild(popup);
   holderYandNo.addEventListener("click", (e) => {
     if (e.target.classList.contains("yes")) {
-      localStorage.removeItem("data");
       arrOfObj = [];
+      localStorage.removeItem("data");
       data.style.display = "none";
       popup.style.display = "none";
       overlay.style.display = "none";
@@ -431,6 +483,7 @@ function popup() {
 
 //this function for developing in future
 function handelProfits() {
+  let oldInputs = getDataFromls("data");
   if (oldInputs) {
     let index = oldInputs.findIndex((e) => {
       return e.catName == catg.value;
@@ -441,8 +494,8 @@ function handelProfits() {
         (+oldInputs[index].sellPrice - +oldInputs[index].price) * +number.value;
       arrOfObj = oldInputs;
     }
+    addDataTols("data", arrOfObj);
   }
-  addDataTols("data", arrOfObj);
   // addDataTols("save", arrOfSav);
 }
 //function to check if it's number
@@ -470,24 +523,15 @@ function findFalse(val1, val2, val3) {
 
 //function to handel case : if the user has 0 item in catg and he is try to calc it's profit on sells window .. there sholud be an alert tell him sorry you have 0 in this item
 function zeroItem() {
+  let oldInputs = getDataFromls("data");
+  let res;
   if (oldInputs) {
-    for (let i = 0; i < oldInputs.length; i++){
+    for (let i = 0; i < oldInputs.length; i++) {
       if (oldInputs[i].number === 0) {
         res = oldInputs[i];
-      }
+      } ;
     }
+    return res;
   }
-  return res;
 }
 
-//register the service worker
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function () {
-    navigator.serviceWorker
-      .register("./serviceWorker.js")
-      .then((res) => console.log(`service worker register`))
-      .catch((err) => {
-        console.log(`service worker is not registered:${err}`);
-      });
-  });
-}
