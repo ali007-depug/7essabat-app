@@ -16,20 +16,20 @@
 
 1. Add item to stack with its name,number of item,price and Sell price.
 
-2. Update stack if you sold one of your proudcts
+2. Update stack if you sold one of your products
 
 3. calculate profit 
 
 4. Remove all data in stack
 
-# Advanced Feauters
+# Advanced Features
 1. Light & Night Themes
 
 2. Show & hide Data in stack
 
 3. Open sells window.
 
-4. Set all proifts to zero in case something went wrong or you want to calc every single day's profit alone.
+4. Set all profits to zero in case something went wrong or you want to calc every single day's profit alone.
 
 5. show error message if you enter words in numeric fields.
 
@@ -60,8 +60,8 @@
 
 ## Future Development :
 
-    1- Enanche UI and make it more friendly.
+1. Enanche UI and make it more friendly.
 
-    2-Add option to remove specific item (not All Stack)
+2. Add option to remove specific item (not All Stack)
 
     
