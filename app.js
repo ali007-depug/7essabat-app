@@ -377,7 +377,7 @@ updateStack.onclick = function () {
       showDataButton.style.display = "block";
     }
     //if one of items == zero then don't work
-    if(zeroItem() == undefined){
+    if(zeroItem(catg.value) == undefined){
       handelProfits();
       emptyInputs(inputs);
       data.innerHTML = "";
@@ -393,7 +393,7 @@ updateStack.onclick = function () {
               data.style.display = "block";
               data.style.color = "rgb(3, 207, 214)";
               data.style.background = "#333";
-      
+      console.log(zeroItem())
       data.classList.add("addBorder");
       data.appendChild(document.createTextNode("Sorry: You haven't this item in your stack"))
     }
@@ -522,16 +522,19 @@ function findFalse(val1, val2, val3) {
 }
 
 //function to handel case : if the user has 0 item in catg and he is try to calc it's profit on sells window .. there sholud be an alert tell him sorry you have 0 in this item
-function zeroItem() {
+function zeroItem(inputvalue) {
   let oldInputs = getDataFromls("data");
   let res;
   if (oldInputs) {
-    for (let i = 0; i < oldInputs.length; i++) {
-      if (oldInputs[i].number === 0) {
-        res = oldInputs[i];
+    for (let i = 0; i < oldInputs.length ; i++) {
+      if (inputvalue === oldInputs[i].catName) {
+        if (oldInputs[i].number === 0) {
+          res = oldInputs[i];
+      }
       } ;
     }
     return res;
   }
 }
+
 
